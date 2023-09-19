@@ -1,0 +1,111 @@
+
+https://codepen.io/asuka-inoue/pen/xxymNWY
+
+   <div class="faqAccordion only-mobile">
+            <div class="faqAccordion__item">
+              <div class="faqAccordion__header"> Title
+              </div>
+              <div class="faqAccordion__content">
+                <div class="faqAccordion__contentInner">Content</div>
+              </div>
+            </div>
+    </div>
+
+
+<style>
+
+.faqAccordion {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.faqAccordion__header {
+  background-color: #2f9a68;
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  position: relative;
+}
+
+
+.faqAccordion__header.is-active::before {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+
+.faqAccordion__header::after {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 2px;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+
+.faqAccordion__header::before {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 15px;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 21px;
+  transform: translateY(-50%);
+}
+
+.faqAccordion__content {
+  background-color: white;
+  overflow: hidden;
+  border-top: 1px solid #f5f5f5;
+}
+
+.faqAccordion__contentInner {
+  padding: 10px;
+}
+
+</style>
+
+
+<script>
+
+
+const faqHeaders = document.querySelectorAll('.faqAccordion__header');
+const faqContents = document.querySelectorAll('.faqAccordion__content');
+
+gsap.set(faqContents,{height:0});
+gsap.set(faqContents[0],{height:'auto'});
+faqHeaders[0].classList.add('is-active');
+
+faqHeaders.forEach((faqHeader)=>{
+	faqHeader.addEventListener('click',function(){
+		let faqContent = faqHeader.nextElementSibling;
+		if(faqHeader.classList.contains('is-active')){
+			gsap.to(faqContent,{height:0});
+			faqHeader.classList.remove('is-active');
+		}else{
+			const activeHeader = document.querySelector('.faqAccordion__header.is-active');
+			let delay = 0;
+			if(activeHeader) {
+				gsap.to(activeHeader.nextElementSibling,{height:0});
+				activeHeader.classList.remove('is-active');
+				delay= .5;
+			}
+			gsap.timeline()
+			.to(faqContent,{height:'auto',delay:delay})
+			.add(()=>{
+				faqHeader.classList.add('is-active')},'-=.5')
+		}
+	});
+});
+
+</script>
+
+
+
+
